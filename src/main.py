@@ -6,7 +6,7 @@ from src.processor import Processor
 
 def parseUrls(urls: Dict[str, str]) -> List:
     names = []
-    with open('urls.txt', 'r') as f:
+    with open('src/urls.txt', 'r') as f:
         for line in f:
             url, shortName = line.split()
             urls[shortName] = url
