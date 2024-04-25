@@ -26,7 +26,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Test with pytest
         run: |
-          python -m pytest src tests --doctest-modules --cov=flats --cov-report=json
+          python -m pytest src tests --doctest-modules --cov=src --cov-report json:./coverage/coverage-summary.json
       - name: Update Coverage Badge
           # GitHub actions: default branch variable
           # https://stackoverflow.com/questions/64781462/github-actions-default-branch-variable
