@@ -2,7 +2,6 @@ from src.parsers.parser import Parser
 from src.flat import Flat
 from typing import List
 from bs4 import BeautifulSoup
-import re
 
 
 class CianParser(Parser):
