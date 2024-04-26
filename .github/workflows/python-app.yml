@@ -1,9 +1,9 @@
 name: Python application
 
-on: [ push, pull_request, pull_request_target ]
+on: [ push ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
