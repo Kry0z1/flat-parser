@@ -39,5 +39,6 @@ jobs:
       - name: Push coverage
         uses: ad-m/github-push-action@master
         with:
-          branch: ${{ github.head_ref }}
+          branch: development
+          github_token: ${{ secrets.GITHUB_TOKEN }}
         
