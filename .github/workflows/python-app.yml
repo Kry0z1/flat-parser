@@ -1,9 +1,6 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
 name: Python application
 
-on: [ push, pull_request, workflow_dispatch ]
+on: [ push, pull_request, pull_request_target ]
 
 permissions:
   contents: read
@@ -33,3 +30,14 @@ jobs:
           coverage html
           genbadge coverage -i ./coverage/coverage.xml -o ./coverage/badge.svg
           rm .coverage
+      - name: Commit coverage
+        run: |
+          git config --local user.email "kryoz.n.a@gmail.com"
+          git config --local user.name "Badge updater"
+          git add coverage
+          git commit -m "Added coverage"
+      - name: Push coverage
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.head_ref }}
+        
