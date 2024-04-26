@@ -26,7 +26,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Test with pytest
         run: |
-          python -m pytest --json-report --json-report-file=./coverage/coverage-summary.json
+          python -m pytest --junitxml=./coverage/junit.xml
       - name: Update Coverage Badge
         run: |
           coverage xml -o ./coverage/coverage.xml
