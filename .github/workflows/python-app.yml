@@ -1,0 +1,48 @@
+name: Python application
+
+on: [ push ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov genbadge[all]
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Test with pytest
+        run: |
+          python -m pytest --cov
+      - name: Update Coverage Badge
+        run: |
+          coverage xml -o ./coverage/coverage.xml
+          coverage html
+          genbadge coverage -i ./coverage/coverage.xml -o ./coverage/badge.svg
+          rm .coverage
+      - name: Commit coverage
+        run: |
+          git config --local user.email "kryoz.n.a@gmail.com"
+          git config --local user.name "Badge updater"
+          git add coverage
+          git commit -m "Added coverage"
+      - name: Push coverage
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.ref }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+        
