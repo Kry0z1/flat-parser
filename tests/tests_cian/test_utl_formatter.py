@@ -1,4 +1,4 @@
-from src.url_formatters.CianFormatter import CianFormatter
+from src.console_stuff.url_formatters.CianFormatter import CianFormatter
 
 
 def input_price(x):

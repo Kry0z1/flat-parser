@@ -5,3 +5,4 @@
 pip install -r requirements
 python main.py
 ```
+Для деплоя бота, необходимо получить токен у BotFather и скопировать его в файл `token.txt` в корне проекта
