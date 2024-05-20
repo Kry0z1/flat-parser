@@ -1,5 +1,5 @@
-from src.parsers.parser import Parser
-from src.flat import Flat
+from src.console_stuff.parsers.parser import Parser
+from src.console_stuff.flat import Flat
 from typing import List
 from bs4 import BeautifulSoup
 

@@ -1,7 +1,9 @@
 from typing import Dict, List
 
-from src.grabber import HTMLGrabber
-from src.processor import Processor
+from src.console_stuff.grabber import HTMLGrabber
+from src.console_stuff.processor import Processor
+from src.console_stuff.parsers.parser import Parser
+from src.console_stuff.url_formatters.formatter import Formatter
 
 
 def parseUrls(urls: Dict[str, str]) -> List:
@@ -35,27 +37,46 @@ def getInput(names: List[str]) -> str:
             return names[int(id) - 1]
 
 
-def main():
+def getUrlsAndUsersChoiceOnUrl():
     urls = dict()
 
     names = parseUrls(urls)
     printOptions(names)
 
     name = getInput(names)
-    print(f"So you chose {name}")
 
-    exec(f"from src.parsers.{name}Parser import {name}Parser")
+    return urls, name
+
+
+def getParser(name: str):
+    exec(f"from src.console_stuff.parsers.{name}Parser import {name}Parser")
     parser = locals()[f"{name}Parser"]()
+    return parser
 
-    exec(f"from src.url_formatters.{name}Formatter import {name}Formatter")
+
+def getFormatter(name: str):
+    exec(f"from src.console_stuff.url_formatters.{name}Formatter import {name}Formatter")
     formatter = locals()[f"{name}Formatter"]()
+    return formatter
 
-    processor = Processor()
 
-    page = HTMLGrabber.getPage(formatter.format(urls[name]))
+def getProcessor():
+    return Processor()
+
+
+def getParsedData(formatter: Formatter, urls: dict, parser: Parser, name: str, params: dict[str, any] = None):
+    page = HTMLGrabber.getPage(formatter.format(urls[name], params))
     parsedData = parser.parse(page)
+    return parsedData
 
-    flats = processor.process(parsedData)
+
+def main():
+    urls, name = getUrlsAndUsersChoiceOnUrl()
+    parser = getParser(name)
+    formatter = getFormatter(name)
+    processor = getProcessor()
+    parsedData = getParsedData(formatter, urls, parser, name)
+    processor.process(parsedData)
 
 
 if __name__ == '__main__':

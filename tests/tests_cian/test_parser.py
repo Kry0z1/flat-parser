@@ -1,4 +1,4 @@
-from src.parsers.CianParser import CianParser
+from src.console_stuff.parsers.CianParser import CianParser
 import requests
 
 
